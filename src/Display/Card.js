@@ -17,6 +17,12 @@ var Card = function(id) {
             this.flipUp();
     }, this);
     game.add.existing(this);
+
+    this.debugFace = game.add.text(0, 0, id, {
+        fontSize: 300
+    });
+    this.debugFace.anchor.set(0.5, 0.5);
+    this.debugFace.alpha = 0;
 };
 Card.prototype = Object.create(Phaser.Sprite.prototype);
 Card.prototype.constructor = Card;
@@ -29,6 +35,7 @@ Card.prototype.flipDown = function() {
     }, FLIP_TIME / 2);
     tween.onComplete.addOnce(function() {
         this.tint = 0x0000ff;
+        this.debugFace.alpha = 0;
     }, this);
     var chained = game.add.tween(this);
     chained.to({
@@ -51,6 +58,9 @@ Card.prototype.flipUp = function() {
     }, FLIP_TIME / 2);
     tween.onComplete.addOnce(function() {
         this.tint = 0x8080ff;
+        this.debugFace.alpha = 1;
+        this.debugFace.position.copyFrom(this.position);
+        this.debugFace.bringToTop();
     }, this);
     var chained = game.add.tween(this);
     chained.to({
