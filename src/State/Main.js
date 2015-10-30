@@ -15,15 +15,42 @@ Main.create = function() {
         cards.push(new Card(i));
     }
 
-    Phaser.ArrayUtils.shuffle(cards);
-
     for (i = 0; i < n; i++) {
         for (j = 0; j < m; j++) {
             var card = cards[j * n + i];
-            card.x = i * (card.width + 25) + 150;
-            card.y = j * (card.height + 25) + 200;
+            card.x = game.rnd.between(200, 880);
+            card.y = game.rnd.between(300, 1620);
+            card.angle = game.rnd.between(-40, 40);
         }
     }
+
+    for (i = 0; i < cards.length; i++) {
+        game.time.events.add(50 * i, function(i) {
+            var tween = game.add.tween(cards[i]);
+            tween.to({
+                x: 540,
+                y: 960,
+                angle: 0
+            }, 1000, Phaser.Easing.Quadratic.Out, true);
+        }, null, i);
+    }
+
+    Phaser.ArrayUtils.shuffle(cards);
+
+    game.time.events.add(50 * cards.length + 1000, function() {
+        for (i = 0; i < n; i++) {
+            for (j = 0; j < m; j++) {
+                game.time.events.add(50 * i * j, function(i, j) {
+                    var card = cards[j * n + i];
+                    var tween = game.add.tween(card);
+                    tween.to({
+                        x: i * (card.width + 25) + 150,
+                        y: j * (card.height + 25) + 200,
+                    }, 1000, Phaser.Easing.Quadratic.Out, true);
+                }, null, i, j);
+            }
+        }
+    });
 
     var overlay = game.add.image(0, 0, 'pix');
     overlay.alpha = 0;
