@@ -21,4 +21,3 @@ re-flipping over a card you've already flipped but not matching it)
 - Maybe have cards drop off the page when you pair them
 - Let people set "themes" for their picture cards (Mario, Legos, Batman, unicorns)
 - Everything about the timing is great
-- 

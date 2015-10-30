@@ -6,7 +6,7 @@ var Main = {};
 Main.create = function() {
     var n = 4;
     var m = 5;
-    var pairs = 10;
+    var pairs = n * m / 2;
     var cards = [];
 
     var i, j;
@@ -29,19 +29,18 @@ Main.create = function() {
     overlay.alpha = 0;
     overlay.height = 1920;
     overlay.width = 1080;
-    overlay.maskInput = function() {
-        this.inputEnabled = true;
-        this.events.onInputUp.removeAll();
-        this.events.onInputUp.add(function() {
+    conc.maskInput = function() {
+        overlay.inputEnabled = true;
+        overlay.events.onInputUp.removeAll();
+        overlay.events.onInputUp.add(function() {
             print('clicking input mask');
         });
     };
-    overlay.unmaskInput = function() {
-        this.inputEnabled = false;
+    conc.unmaskInput = function() {
+        overlay.inputEnabled = false;
     };
-    conc.overlay = overlay;
-    
-    game.input.onUp.addOnce(function(){
+
+    game.input.onUp.addOnce(function() {
         game.scale.startFullScreen();
     });
 };
