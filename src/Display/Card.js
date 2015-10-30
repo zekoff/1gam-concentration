@@ -2,14 +2,15 @@
 var FLIP_TIME = 200; // ms
 var DELAY_AFTER_MISMATCH = 1000; // ms
 var PAIR_ANIMATION_TIME = 200; // ms
+var WIDTH = 200;
+var HEIGHT = 300;
 
 var Card = function(id) {
-    Phaser.Sprite.call(this, game, 0, 0, 'pix');
+    Phaser.Sprite.call(this, game, 0, 0, 'card_back');
     this.anchor.set(0.5, 0.5);
     this.id = id;
-    this.height = 300;
-    this.width = 200;
-    this.tint = 0x0000ff;
+    this.height = HEIGHT;
+    this.width = WIDTH;
     this.faceDown = true;
     this.inputEnabled = true;
     this.events.onInputUp.add(function() {
@@ -17,12 +18,6 @@ var Card = function(id) {
             this.flipUp();
     }, this);
     game.add.existing(this);
-
-    this.debugFace = game.add.text(0, 0, id, {
-        fontSize: 300
-    });
-    this.debugFace.anchor.set(0.5, 0.5);
-    this.debugFace.alpha = 0;
 };
 Card.prototype = Object.create(Phaser.Sprite.prototype);
 Card.prototype.constructor = Card;
@@ -34,8 +29,9 @@ Card.prototype.flipDown = function() {
         width: 0
     }, FLIP_TIME / 2);
     tween.onComplete.addOnce(function() {
-        this.tint = 0x0000ff;
-        this.debugFace.alpha = 0;
+        this.loadTexture('card_back');
+        this.width = 0;
+        this.height = HEIGHT;
     }, this);
     var chained = game.add.tween(this);
     chained.to({
@@ -51,16 +47,14 @@ Card.prototype.flipUp = function() {
     print('card id: ' + this.id);
     this.faceDown = false;
     conc.overlay.maskInput();
-    // TODO: improve card reveal animation
     var tween = game.add.tween(this);
     tween.to({
         width: 0
     }, FLIP_TIME / 2);
     tween.onComplete.addOnce(function() {
-        this.tint = 0x8080ff;
-        this.debugFace.alpha = 1;
-        this.debugFace.position.copyFrom(this.position);
-        this.debugFace.bringToTop();
+        this.loadTexture('card_front_' + this.id);
+        this.width = 0;
+        this.height = HEIGHT;
     }, this);
     var chained = game.add.tween(this);
     chained.to({
@@ -81,7 +75,6 @@ Card.prototype.flipUp = function() {
                     angle: -5
                 }, PAIR_ANIMATION_TIME);
                 tween.onComplete.addOnce(function() {
-                    this.tint = 0x00ff00;
                     conc.overlay.unmaskInput();
                 }, card);
                 tween.start();

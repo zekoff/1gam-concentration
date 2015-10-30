@@ -7,6 +7,10 @@ module.exports = {
         game.scale.pageAlignVertically = true;
         game.load.baseURL = './assets/';
         game.load.image('pix');
+        Phaser.ArrayUtils.numberArray(0, 9).forEach(function(n) {
+            game.load.image('card_front_' + n);
+        });
+        game.load.image('card_back');
     },
     create: function() {
         game.state.start('Main');

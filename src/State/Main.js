@@ -20,8 +20,8 @@ Main.create = function() {
     for (i = 0; i < n; i++) {
         for (j = 0; j < m; j++) {
             var card = cards[j * n + i];
-            card.x = i * (card.width + 20) + 100;
-            card.y = j * (card.height + 20) + 150;
+            card.x = i * (card.width + 25) + 150;
+            card.y = j * (card.height + 25) + 200;
         }
     }
 
@@ -40,6 +40,10 @@ Main.create = function() {
         this.inputEnabled = false;
     };
     conc.overlay = overlay;
+    
+    game.input.onUp.addOnce(function(){
+        game.scale.startFullScreen();
+    });
 };
 
 module.exports = Main;
