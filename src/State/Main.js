@@ -8,6 +8,7 @@ Main.create = function() {
     var m = 5;
     var pairs = n * m / 2;
     var cards = [];
+    conc.cards = cards;
 
     var i, j;
     for (i = 0; i < pairs; i++) {
@@ -28,9 +29,9 @@ Main.create = function() {
         game.time.events.add(50 * i, function(i) {
             var tween = game.add.tween(cards[i]);
             tween.to({
-                x: 540,
+                x: 140 + 40 * i,
                 y: 960,
-                angle: 0
+                angle: -40 + 4 * i
             }, 1000, Phaser.Easing.Quadratic.Out, true);
         }, null, i);
     }
@@ -42,10 +43,12 @@ Main.create = function() {
             for (j = 0; j < m; j++) {
                 game.time.events.add(50 * i * j, function(i, j) {
                     var card = cards[j * n + i];
+                    card.flip();
                     var tween = game.add.tween(card);
                     tween.to({
                         x: i * (card.width + 25) + 150,
                         y: j * (card.height + 25) + 200,
+                        angle: 0
                     }, 1000, Phaser.Easing.Quadratic.Out, true);
                 }, null, i, j);
             }
@@ -58,10 +61,6 @@ Main.create = function() {
     overlay.width = 1080;
     conc.maskInput = function() {
         overlay.inputEnabled = true;
-        overlay.events.onInputUp.removeAll();
-        overlay.events.onInputUp.add(function() {
-            print('clicking input mask');
-        });
     };
     conc.unmaskInput = function() {
         overlay.inputEnabled = false;

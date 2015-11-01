@@ -1,17 +1,17 @@
 /* global Phaser, game, conc */
 var FLIP_TIME = 200; // ms
-var DELAY_AFTER_MISMATCH = 1000; // ms
+var DELAY_AFTER_MISMATCH = 500; // ms
 var PAIR_ANIMATION_TIME = 200; // ms
 var WIDTH = 200;
 var HEIGHT = 300;
 
 var Card = function(id) {
-    Phaser.Sprite.call(this, game, 0, 0, 'card_back');
+    Phaser.Sprite.call(this, game, 0, 0, 'card_front_' + id);
     this.anchor.set(0.5, 0.5);
     this.id = id;
     this.height = HEIGHT;
     this.width = WIDTH;
-    this.faceDown = true;
+    this.faceDown = false;
     this.inputEnabled = true;
     this.events.onInputUp.add(function() {
         if (this.faceDown)
@@ -63,7 +63,7 @@ Card.prototype.checkPair = function() {
             tween.start();
         });
         conc.revealedCard = null;
-        // TODO: check for win
+        checkWin();
     }
     else {
         game.time.events.add(DELAY_AFTER_MISMATCH, function() {
@@ -73,7 +73,22 @@ Card.prototype.checkPair = function() {
             conc.unmaskInput();
         }, this);
     }
+};
 
+var checkWin = function() {
+    var foundFaceDown = false;
+    conc.cards.forEach(function(card) {
+        if (card.faceDown) foundFaceDown = true;
+    });
+    if (foundFaceDown) return;
+    // TODO: wiggle cards or something
+    game.add.bitmapText(540, 960, 'font', 'YOU WIN!', 170).anchor.set(0.5);
+    game.time.events.add(1000, function() {
+        game.add.bitmapText(540, 1820, 'font', 'Tap to restart...', 100).anchor.set(0.5);
+        game.input.onUp.addOnce(function() {
+            game.state.start('Title');
+        });
+    });
 };
 
 module.exports = Card;

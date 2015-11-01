@@ -11,8 +11,9 @@ module.exports = {
             game.load.image('card_front_' + n);
         });
         game.load.image('card_back');
+        game.load.bitmapFont('font', 'font.png', 'font.fnt');
     },
     create: function() {
-        game.state.start('Main');
+        game.state.start('Title');
     }
 };
