@@ -6,7 +6,7 @@ var WIDTH = 200;
 var HEIGHT = 300;
 
 var Card = function(id) {
-    Phaser.Sprite.call(this, game, 0, 0, 'card_front_' + id);
+    Phaser.Sprite.call(this, game, 0, 0, conc.deck + '_front_' + id);
     this.anchor.set(0.5, 0.5);
     this.id = id;
     this.height = HEIGHT;
@@ -29,7 +29,7 @@ Card.prototype.flip = function() {
         width: 0
     }, FLIP_TIME / 2);
     tween.onComplete.addOnce(function() {
-        this.loadTexture(this.faceDown ? 'card_back' : 'card_front_' + this.id);
+        this.loadTexture(this.faceDown ? conc.deck + '_back' : conc.deck + '_front_' + this.id);
         this.width = 0;
         this.height = HEIGHT;
     }, this);
@@ -51,7 +51,6 @@ Card.prototype.checkPair = function() {
         return;
     }
     if (this.id == conc.revealedCard.id) {
-        // TODO: improve pair animation
         [this, conc.revealedCard].forEach(function(card) {
             var tween = game.add.tween(card);
             tween.to({
@@ -94,11 +93,11 @@ var checkWin = function() {
         }, null, conc.cards[i], i);
     var winText = game.add.bitmapText(540, 960, 'font', 'YOU WIN!', 170);
     winText.anchor.set(0.5);
-    winText.tint = 0x8080ff;
+    winText.tint = 0x1ea7e1;
     game.time.events.add(1000, function() {
         var restartText = game.add.bitmapText(540, 1820, 'font', 'Tap to restart...', 100);
         restartText.anchor.set(0.5);
-        restartText.tint = 0x8080ff;
+        restartText.tint = 0x1ea7e1;
         game.input.onUp.addOnce(game.state.start.bind(game.state, 'Title'));
     });
 };

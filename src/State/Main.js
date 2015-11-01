@@ -4,6 +4,8 @@ var Card = require('../Display/Card');
 var Main = {};
 
 Main.create = function() {
+    game.add.image(0, 0, 'background');
+
     var n = 4;
     var m = 5;
     var pairs = n * m / 2;
@@ -46,8 +48,8 @@ Main.create = function() {
                     card.flip();
                     var tween = game.add.tween(card);
                     tween.to({
-                        x: i * (card.width + 25) + 150,
-                        y: j * (card.height + 25) + 200,
+                        x: i * (270) + 135,
+                        y: j * (384) + 192,
                         angle: 0
                     }, 1000, Phaser.Easing.Quadratic.Out, true);
                 }, null, i, j);
@@ -65,10 +67,6 @@ Main.create = function() {
     conc.unmaskInput = function() {
         overlay.inputEnabled = false;
     };
-
-    game.input.onUp.addOnce(function() {
-        game.scale.startFullScreen();
-    });
 };
 
 module.exports = Main;

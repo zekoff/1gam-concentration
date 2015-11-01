@@ -3,12 +3,6 @@
 ## Todo
 
 - Different card backs.
-- Picture/icon-based cards and number-based cards
-- Options for more cards in play.
-- Title screen
-- Background for playing field
-- Center cards in the playing field
-- Make win text more visible
 - Loading screen
 
 ## Lauren's comments
