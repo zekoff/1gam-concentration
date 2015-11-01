@@ -81,13 +81,25 @@ var checkWin = function() {
         if (card.faceDown) foundFaceDown = true;
     });
     if (foundFaceDown) return;
-    // TODO: wiggle cards or something
-    game.add.bitmapText(540, 960, 'font', 'YOU WIN!', 170).anchor.set(0.5);
+    Phaser.ArrayUtils.shuffle(conc.cards);
+    var i;
+    for (i = 0; i < conc.cards.length; i++)
+        game.time.events.add(200 * i, function(card, i) {
+            game.add.tween(card).to({
+                x: 1300
+            }, 1500, Phaser.Easing.Quadratic.Out, true);
+            game.add.tween(card).to({
+                y: 2200
+            }, 1500, Phaser.Easing.Quadratic.In, true);
+        }, null, conc.cards[i], i);
+    var winText = game.add.bitmapText(540, 960, 'font', 'YOU WIN!', 170);
+    winText.anchor.set(0.5);
+    winText.tint = 0x8080ff;
     game.time.events.add(1000, function() {
-        game.add.bitmapText(540, 1820, 'font', 'Tap to restart...', 100).anchor.set(0.5);
-        game.input.onUp.addOnce(function() {
-            game.state.start('Title');
-        });
+        var restartText = game.add.bitmapText(540, 1820, 'font', 'Tap to restart...', 100);
+        restartText.anchor.set(0.5);
+        restartText.tint = 0x8080ff;
+        game.input.onUp.addOnce(game.state.start.bind(game.state, 'Title'));
     });
 };
 
