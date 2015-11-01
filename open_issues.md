@@ -1,10 +1,5 @@
 # Open Issues
 
-## Todo
-
-- Different card backs.
-- Loading screen
-
 ## Lauren's comments
 
 - Have a mode with a timer and/or three strikes, you're out (with a strike being

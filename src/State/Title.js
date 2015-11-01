@@ -12,6 +12,7 @@ Title.create = function() {
     titleText.angle = 30;
 
     var deckIndex = 0;
+    conc.deck = DECKS[deckIndex].toLowerCase();
     game.add.bitmapText(540, 1200, 'font', 'Change Deck:', 100).anchor.set(0.5);
     var deckButton = game.add.image(540, 1400, 'button');
     deckButton.anchor.set(0.5);
