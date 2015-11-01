@@ -2,7 +2,7 @@
 
 var Title = {};
 
-var DECKS = ['Halloween'];
+var DECKS = ['Shapes', 'Halloween', 'Christmas'];
 
 Title.create = function() {
     game.add.image(0, 0, 'background');
